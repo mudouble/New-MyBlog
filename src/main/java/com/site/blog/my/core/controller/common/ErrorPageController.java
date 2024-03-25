@@ -10,7 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-
+/**
+ * 自定义错误页面
+ */
 @Controller
 public class ErrorPageController implements ErrorViewResolver {
 

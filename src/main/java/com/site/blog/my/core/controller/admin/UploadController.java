@@ -4,6 +4,7 @@ import com.site.blog.my.core.config.Constants;
 import com.site.blog.my.core.util.MyBlogUtils;
 import com.site.blog.my.core.util.Result;
 import com.site.blog.my.core.util.ResultGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +22,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
-
-/**
- * @author 13
- * @qq交流群 796794009
- * @email 2449207463@qq.com
- * @link http://13blog.site
- */
+@Slf4j
 @Controller
 @RequestMapping("/admin")
 public class UploadController {
@@ -35,7 +30,7 @@ public class UploadController {
     @PostMapping({"/upload/file"})
     @ResponseBody
     public Result upload(HttpServletRequest httpServletRequest, @RequestParam("file") MultipartFile file) throws URISyntaxException {
-        String fileName = file.getOriginalFilename();
+        String fileName = file.getOriginalFilename();   //图片的名字
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
         //生成文件名称通用方法
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -45,10 +40,13 @@ public class UploadController {
         String newFileName = tempName.toString();
         File fileDirectory = new File(Constants.FILE_UPLOAD_DIC);
         //创建文件
+        //fileDirectory.mkdir()只能创建一级目录，如果上级目录不存在，则会创建失败；
+        //mkdirs()会创建所有不存在的父目录，而不仅仅是最后一级
         File destFile = new File(Constants.FILE_UPLOAD_DIC + newFileName);
+        log.info("destFile:{}", String.valueOf(destFile));
         try {
             if (!fileDirectory.exists()) {
-                if (!fileDirectory.mkdir()) {
+                if (!fileDirectory.mkdirs()) {
                     throw new IOException("文件夹创建失败,路径为：" + fileDirectory);
                 }
             }

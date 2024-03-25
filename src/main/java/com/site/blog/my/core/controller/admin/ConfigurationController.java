@@ -10,12 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 
-/**
- * @author 13
- * @qq交流群 796794009
- * @email 2449207463@qq.com
- * @link http://13blog.site
- */
 @Controller
 @RequestMapping("/admin")
 public class ConfigurationController {
@@ -30,12 +24,14 @@ public class ConfigurationController {
         return "admin/configuration";
     }
 
+    //有一个问题是点击一次确认之后就不给继续修改了，除非重新进入该页面
     @PostMapping("/configurations/website")
     @ResponseBody
     public Result website(@RequestParam(value = "websiteName", required = false) String websiteName,
                           @RequestParam(value = "websiteDescription", required = false) String websiteDescription,
                           @RequestParam(value = "websiteLogo", required = false) String websiteLogo,
                           @RequestParam(value = "websiteIcon", required = false) String websiteIcon) {
+       //至少有一个参数更新成功整个操作才算成功
         int updateResult = 0;
         if (StringUtils.hasText(websiteName)) {
             updateResult += configService.updateConfig("websiteName", websiteName);

@@ -1,5 +1,4 @@
 package com.site.blog.my.core.controller.admin;
-
 import com.site.blog.my.core.config.Constants;
 import com.site.blog.my.core.entity.Blog;
 import com.site.blog.my.core.service.BlogService;
@@ -27,12 +26,6 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * @author 13
- * @qq交流群 796794009
- * @email 2449207463@qq.com
- * @link http://13blog.site
- */
 @Controller
 @RequestMapping("/admin")
 public class BlogController {
@@ -42,6 +35,9 @@ public class BlogController {
     @Resource
     private CategoryService categoryService;
 
+    //ObjectUtils spring框架的，对对象进行空检查或安全地进行操作，尤其是不确定参数具体数据类型的时候
+    //第一个list返回json格式博客列表的数据，第二个list返回HTML页面，
+    // 在实际中第一个页面先返回一个页面再由第二个list来获取数据（javascript：blog.js文件）
     @GetMapping("/blogs/list")
     @ResponseBody
     public Result list(@RequestParam Map<String, Object> params) {
@@ -52,11 +48,10 @@ public class BlogController {
         return ResultGenerator.genSuccessResult(blogService.getBlogsPage(pageUtil));
     }
 
-
     @GetMapping("/blogs")
     public String list(HttpServletRequest request) {
         request.setAttribute("path", "blogs");
-        return "admin/blog";
+        return "admin/blog";    //这是html的路径和http的请求还是不一样的
     }
 
     @GetMapping("/blogs/edit")
@@ -182,6 +177,8 @@ public class BlogController {
         }
     }
 
+
+    //本地上传
     @PostMapping("/blogs/md/uploadfile")
     public void uploadFileByEditormd(HttpServletRequest request,
                                      HttpServletResponse response,
@@ -201,7 +198,7 @@ public class BlogController {
         File fileDirectory = new File(Constants.FILE_UPLOAD_DIC);
         try {
             if (!fileDirectory.exists()) {
-                if (!fileDirectory.mkdir()) {
+                if (!fileDirectory.mkdirs()) {
                     throw new IOException("文件夹创建失败,路径为：" + fileDirectory);
                 }
             }
@@ -210,6 +207,7 @@ public class BlogController {
             response.setHeader("Content-Type", "text/html");
             response.getWriter().write("{\"success\": 1, \"message\":\"success\",\"url\":\"" + fileUrl + "\"}");
         } catch (UnsupportedEncodingException e) {
+            // response向客户端 发送响应的方式
             response.getWriter().write("{\"success\":0}");
         } catch (IOException e) {
             response.getWriter().write("{\"success\":0}");

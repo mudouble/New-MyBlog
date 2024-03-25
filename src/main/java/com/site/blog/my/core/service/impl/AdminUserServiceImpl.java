@@ -30,6 +30,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         AdminUser adminUser = adminUserMapper.selectByPrimaryKey(loginUserId);
         //当前用户非空才可以进行更改
         if (adminUser != null) {
+            // MD5加密,目前MD5加密已经是一种不安全的加密方式
             String originalPasswordMd5 = MD5Util.MD5Encode(originalPassword, "UTF-8");
             String newPasswordMd5 = MD5Util.MD5Encode(newPassword, "UTF-8");
             //比较原密码是否正确

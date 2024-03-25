@@ -13,19 +13,15 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-/**
- * @author 13
- * @qq交流群 796794009
- * @email 2449207463@qq.com
- * @link http://13blog.site
- */
 @Controller
 @RequestMapping("/admin")
 public class CommentController {
 
     @Resource
     private CommentService commentService;
-
+    /**
+     * 评论列表
+     */
     @GetMapping("/comments/list")
     @ResponseBody
     public Result list(@RequestParam Map<String, Object> params) {
@@ -35,7 +31,9 @@ public class CommentController {
         PageQueryUtil pageUtil = new PageQueryUtil(params);
         return ResultGenerator.genSuccessResult(commentService.getCommentsPage(pageUtil));
     }
-
+    /**
+     * 评论审核
+     */
     @PostMapping("/comments/checkDone")
     @ResponseBody
     public Result checkDone(@RequestBody Integer[] ids) {
@@ -49,6 +47,12 @@ public class CommentController {
         }
     }
 
+    /**
+     * 评论回复
+     * @param commentId
+     * @param replyBody
+     * @return
+     */
     @PostMapping("/comments/reply")
     @ResponseBody
     public Result checkDone(@RequestParam("commentId") Long commentId,

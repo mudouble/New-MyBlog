@@ -17,13 +17,13 @@ public class CommonController {
         httpServletResponse.setHeader("Pragma", "no-cache");
         httpServletResponse.setDateHeader("Expires", 0);
         httpServletResponse.setContentType("image/png");
-
+        // createShearCaptcha创建一个验证码实例，指定验证码图片的宽 高 字符个数和干扰条数
         ShearCaptcha shearCaptcha= CaptchaUtil.createShearCaptcha(150, 30, 4, 2);
 
         // 验证码存入session
         httpServletRequest.getSession().setAttribute("verifyCode", shearCaptcha);
 
-        // 输出图片流
+        // 输出验证码图片流
         shearCaptcha.write(httpServletResponse.getOutputStream());
     }
 }
