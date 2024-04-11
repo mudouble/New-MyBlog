@@ -190,6 +190,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public PageResult getBlogsForIndexPage(int page) {
+        //java7及更高版本可以使用 diamond" 语法 <> 来进行类型推断
         Map params = new HashMap();
         params.put("page", page);
         //每页8条

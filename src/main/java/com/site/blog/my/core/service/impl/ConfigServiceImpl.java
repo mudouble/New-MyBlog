@@ -17,19 +17,19 @@ public class ConfigServiceImpl implements ConfigService {
     @Autowired
     private BlogConfigMapper configMapper;
 
-    public static final String websiteName = "personal blog";
-    public static final String websiteDescription = "personal blog是SpringBoot2+Thymeleaf+Mybatis建造的个人博客网站.SpringBoot实战博客源码.个人博客搭建";
+    public static final String websiteName = "lgyStudy blog";
+    public static final String websiteDescription = "lgyStudy blog是基于GitHub项目person blog的SpringBoot2+Thymeleaf+Mybatis建造的个人学习博客网站.SpringBoot实战博客源码.个人博客搭建";
     public static final String websiteLogo = "/admin/dist/img/logo2.png";
     public static final String websiteIcon = "/admin/dist/img/favicon.png";
 
     public static final String yourAvatar = "/admin/dist/img/13.png";
-    public static final String yourEmail = "2449207463@qq.com";
-    public static final String yourName = "十三";
+    public static final String yourEmail = "2653614045@qq.com";
+    public static final String yourName = "lgy";
 
-    public static final String footerAbout = "your personal blog. have fun.";
-    public static final String footerICP = "浙ICP备 xxxxxx-x号";
-    public static final String footerCopyRight = "@2018 十三";
-    public static final String footerPoweredBy = "personal blog";
+    public static final String footerAbout = "lgyStudy blog. have fun.";
+    public static final String footerICP = "桂ICP备 xxxxxx-x号";
+    public static final String footerCopyRight = "@2024 lgy";
+    public static final String footerPoweredBy = "lgyStudy blog";
     public static final String footerPoweredByURL = "##";
 
     @Override
@@ -49,6 +49,7 @@ public class ConfigServiceImpl implements ConfigService {
         List<BlogConfig> blogConfigs = configMapper.selectAll();
         Map<String, String> configMap = blogConfigs.stream().collect(Collectors.toMap(BlogConfig::getConfigName, BlogConfig::getConfigValue));
         for (Map.Entry<String, String> config : configMap.entrySet()) {
+            // 如果config对应的属性的值为空，就用前面定义的静态变量来填充
             if ("websiteName".equals(config.getKey()) && !StringUtils.hasText(config.getValue())) {
                 config.setValue(websiteName);
             }
